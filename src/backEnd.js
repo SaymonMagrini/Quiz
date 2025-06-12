@@ -37,11 +37,13 @@
   let actionButton = document.getElementById('actionButton');
 
   function normalizeText(text) {
-    return text.trim().toLowerCase()
+    return text.toLowerCase()
       .normalize("NFD").replace(/[\u0300-\u036f]/g, "")
-      .replace(/[^a-z0-9\s]/g, "");
+      .replace(/[^a-z0-9\s]/g, "")
+      .replace(/\s+/g, " ")
+      .trim();
   }
-
+window.normalizeText = normalizeText
   function isAnswerClose(userAnswer, correctAnswer, question) {
     const normalizedUser = normalizeText(userAnswer);
     const normalizedCorrect = normalizeText(correctAnswer);
