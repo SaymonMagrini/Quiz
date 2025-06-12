@@ -1,15 +1,15 @@
 // unitTests.js
-(function(global){
+(function (global) {
   const { assertEqual, assertTrue, assertFalse } = global.TestLib;
 
   // Funções do quiz usadas nos testes
-function normalizeText(text) {
-  return text.toLowerCase()
-    .normalize("NFD").replace(/[\u0300-\u036f]/g, "")
-    .replace(/[^a-z0-9\s]/g, "")
-    .replace(/\s+/g, " ")
-    .trim();
-}
+  function normalizeText(text) {
+    return text.toLowerCase()
+      .normalize("NFD").replace(/[\u0300-\u036f]/g, "")
+      .replace(/[^a-z0-9\s]/g, "")
+      .replace(/\s+/g, " ")
+      .trim();
+  }
 
   function isAnswerClose(userAnswer, correctAnswer, question) {
     const normalizedUser = normalizeText(userAnswer);
@@ -17,7 +17,7 @@ function normalizeText(text) {
 
     if (normalizedUser.length < 2) return false;
 
-    const stopWords = ['oceano','planeta','monte','rio','lago','mar','o','a','de','do','da','dos','das','e','em'];
+    const stopWords = ['oceano', 'planeta', 'monte', 'rio', 'lago', 'mar', 'o', 'a', 'de', 'do', 'da', 'dos', 'das', 'e', 'em'];
 
     function cleanStopWords(text) {
       return text.split(' ').filter(w => !stopWords.includes(w)).join(' ');
@@ -43,7 +43,7 @@ function normalizeText(text) {
 
   function shuffleArray(arr) {
     const array = arr.slice();
-    for (let i = array.length -1; i > 0; i--) {
+    for (let i = array.length - 1; i > 0; i--) {
       const j = Math.floor(Math.random() * (i + 1));
       [array[i], array[j]] = [array[j], array[i]];
     }
@@ -51,16 +51,16 @@ function normalizeText(text) {
   }
 
   const unitTests = {
-    'normalizeText: Remove maiúsculas e acentos': () => 
+    'normalizeText: Remove maiúsculas e acentos': () =>
       assertEqual(normalizeText("ÁÉÍÓÚ Çãõ"), "aeiou cao", "deve normalizar removendo acentos e minúsculas"),
 
     'normalizeText: Remove caracteres especiais': () =>
       assertEqual(normalizeText("Olá! Tudo bem?"), "ola tudo bem", "remove pontuação"),
 
-    'isAnswerClose: aceita variação com stopwords': () => 
+    'isAnswerClose: aceita variação com stopwords': () =>
       assertTrue(isAnswerClose("pacifico", "Oceano Pacífico", "Qual é o maior oceano da Terra?"), "ignora stopwords e aceita pacifico"),
 
-    'isAnswerClose: rejeita respostas muito curtas': () => 
+    'isAnswerClose: rejeita respostas muito curtas': () =>
       assertFalse(isAnswerClose("a", "Everest", "Qual é a maior montanha do mundo?"), "não aceita apenas uma letra"),
 
     'isAnswerClose: aceita resposta numérica aproximada': () =>
@@ -70,13 +70,13 @@ function normalizeText(text) {
       assertFalse(isAnswerClose("100", "299792", "Qual é a velocidade da luz no vácuo (em km/s)?"), "rejeita valor muito distante"),
 
     'shuffleArray: mantém tamanho igual': () => {
-      const arr = [1,2,3,4,5];
+      const arr = [1, 2, 3, 4, 5];
       const shuffled = shuffleArray(arr);
       return assertEqual(shuffled.length, arr.length, "tamanho da array não muda");
     },
 
     'shuffleArray: muda ordem': () => {
-      const arr = [1,2,3,4,5];
+      const arr = [1, 2, 3, 4, 5];
       const shuffled = shuffleArray(arr);
       // pode falhar raramente, então apenas teste se não é sempre igual
       return shuffled.join("") !== arr.join("") || true;

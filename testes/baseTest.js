@@ -1,5 +1,5 @@
 // baseTest.js
-(function(global){
+(function (global) {
   function assertEqual(actual, expected, message) {
     if (actual === expected) {
       console.log(`✔️  PASS: ${message}`);
