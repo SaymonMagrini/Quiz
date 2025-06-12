@@ -25,6 +25,8 @@
     return arr;
   }
 
+window.shuffleArray = shuffleArray
+
   let questions = shuffleArray([...quizData]); // todas as perguntas embaralhadas
   let currentIndex = 0;
   let score = 0;
@@ -44,7 +46,7 @@
       .trim();
   }
 
-window.normalizeText = normalizeText //Globalizando a função
+  window.normalizeText = normalizeText //Globalizando a função
 
   function isAnswerClose(userAnswer, correctAnswer, question) {
     const normalizedUser = normalizeText(userAnswer);
@@ -78,7 +80,7 @@ window.normalizeText = normalizeText //Globalizando a função
     return false;
   }
 
-window.isAnswerClose = isAnswerClose //Globalizando a função
+  window.isAnswerClose = isAnswerClose //Globalizando a função
 
   let awaitingConfirmation = true;
 
