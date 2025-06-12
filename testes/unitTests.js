@@ -3,37 +3,8 @@
   const { assertEqual, assertTrue, assertFalse } = global.TestLib;
 
   // Funções do quiz usadas nos testes
-
-  function isAnswerClose(userAnswer, correctAnswer, question) {
-    const normalizedUser = normalizeText(userAnswer);
-    const normalizedCorrect = normalizeText(correctAnswer);
-
-    if (normalizedUser.length < 2) return false;
-
-    const stopWords = ['oceano', 'planeta', 'monte', 'rio', 'lago', 'mar', 'o', 'a', 'de', 'do', 'da', 'dos', 'das', 'e', 'em'];
-
-    function cleanStopWords(text) {
-      return text.split(' ').filter(w => !stopWords.includes(w)).join(' ');
-    }
-
-    const cleanedUser = cleanStopWords(normalizedUser);
-    const cleanedCorrect = cleanStopWords(normalizedCorrect);
-
-    if (cleanedUser.includes(cleanedCorrect) || cleanedCorrect.includes(cleanedUser)) {
-      return true;
-    }
-
-    if (question.toLowerCase().includes("velocidade da luz")) {
-      const numUser = parseFloat(normalizedUser.replace(/[^\d\.]/g, ''));
-      const numCorrect = parseFloat(normalizedCorrect.replace(/[^\d\.]/g, ''));
-      if (!isNaN(numUser) && !isNaN(numCorrect)) {
-        return Math.abs(numUser - numCorrect) < 1000;
-      }
-    }
-
-    return false;
-  }
-
+  //  ^ o chat gpt errou feio fazendo isso aqui, deu trampo arrumar
+  
   function shuffleArray(arr) {
     const array = arr.slice();
     for (let i = array.length - 1; i > 0; i--) {

@@ -43,7 +43,9 @@
       .replace(/\s+/g, " ")
       .trim();
   }
-window.normalizeText = normalizeText
+
+window.normalizeText = normalizeText //Globalizando a função
+
   function isAnswerClose(userAnswer, correctAnswer, question) {
     const normalizedUser = normalizeText(userAnswer);
     const normalizedCorrect = normalizeText(correctAnswer);
@@ -75,6 +77,8 @@ window.normalizeText = normalizeText
 
     return false;
   }
+
+window.isAnswerClose = isAnswerClose //Globalizando a função
 
   let awaitingConfirmation = true;
 
