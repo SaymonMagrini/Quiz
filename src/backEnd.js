@@ -1,21 +1,23 @@
 (() => {
-  const quizData = [
-    { question: "Qual é o símbolo químico do ouro?", answer: "Au" },
-    { question: "Quem foi o primeiro homem a pisar na Lua?", answer: "Neil Armstrong" },
-    { question: "Qual país tem a maior população do mundo?", answer: "China" },
-    { question: "Em que ano ocorreu a queda do muro de Berlim?", answer: "1989" },
-    { question: "Qual a capital da Austrália?", answer: "Canberra" },
-    { question: "Quem escreveu 'A Odisséia'?", answer: "Homero" },
-    { question: "Qual é a fórmula química do sal de cozinha?", answer: "NaCl" },
-    { question: "Qual é a maior montanha do mundo?", answer: "Everest" },
-    { question: "Quem pintou 'O Grito'?", answer: "Edvard Munch" },
-    { question: "Qual é o maior oceano da Terra?", answer: "Oceano Pacífico" },
-    { question: "Qual é a velocidade da luz no vácuo (em km/s)?", answer: "299792" },
-    { question: "Qual planeta é conhecido como o Planeta Vermelho?", answer: "Marte" },
-    { question: "Quem descobriu a penicilina?", answer: "Alexander Fleming" },
-    { question: "Qual é o idioma oficial do Brasil?", answer: "Português" },
-    { question: "Qual animal é conhecido como o rei da selva?", answer: "Leão" }
-  ];
+  let quizData = [];
+
+  fetch("src/questões.json")
+    .then(response => {
+      if (!response.ok) {
+        throw new Error("Failed to load data");
+      }
+      return response.json();
+    })
+    .then(data => {
+      quizData = data;
+      console.log("Quiz loaded:", quizData);
+
+      questions = shuffleArray([...quizData]); // ✅ Create questions here
+      currentIndex = 0;
+      score = 0;
+      loadQuestion(); // ✅ Start the quiz after data is ready
+    })
+    .catch(error => console.error("Error loading quiz data:", error));
 
   function shuffleArray(arr) {
     for (let i = arr.length - 1; i > 0; i--) {
@@ -24,10 +26,9 @@
     }
     return arr;
   }
+  window.shuffleArray = shuffleArray;
 
-window.shuffleArray = shuffleArray
-
-  let questions = shuffleArray([...quizData]); // todas as perguntas embaralhadas
+  let questions = []; // ✅ Start empty
   let currentIndex = 0;
   let score = 0;
 
@@ -45,17 +46,15 @@ window.shuffleArray = shuffleArray
       .replace(/\s+/g, " ")
       .trim();
   }
-
-  window.normalizeText = normalizeText //Globalizando a função
+  window.normalizeText = normalizeText;
 
   function isAnswerClose(userAnswer, correctAnswer, question) {
     const normalizedUser = normalizeText(userAnswer);
     const normalizedCorrect = normalizeText(correctAnswer);
 
-    // Bloqueia respostas muito curtas
     if (normalizedUser.length < 2) return false;
 
-    const stopWords = ['oceano', 'planeta', 'monte', 'monte', 'rio', 'lago', 'mar', 'o', 'a', 'de', 'do', 'da', 'dos', 'das', 'e', 'em'];
+    const stopWords = ['oceano', 'planeta', 'monte', 'rio', 'lago', 'mar', 'o', 'a', 'de', 'do', 'da', 'dos', 'das', 'e', 'em'];
 
     function cleanStopWords(text) {
       return text.split(' ').filter(w => !stopWords.includes(w)).join(' ');
@@ -68,7 +67,6 @@ window.shuffleArray = shuffleArray
       return true;
     }
 
-    // Tratamento especial para números (velocidade da luz)
     if (question.toLowerCase().includes("velocidade da luz")) {
       const numUser = parseFloat(normalizedUser.replace(/[^\d\.]/g, ''));
       const numCorrect = parseFloat(normalizedCorrect.replace(/[^\d\.]/g, ''));
@@ -79,8 +77,7 @@ window.shuffleArray = shuffleArray
 
     return false;
   }
-
-  window.isAnswerClose = isAnswerClose //Globalizando a função
+  window.isAnswerClose = isAnswerClose;
 
   let awaitingConfirmation = true;
 
@@ -186,9 +183,8 @@ window.shuffleArray = shuffleArray
         }
       });
 
-      loadQuestion();
+
     });
   }
 
-  loadQuestion();
 })();
